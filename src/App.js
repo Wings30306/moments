@@ -1,9 +1,11 @@
 import './App.css';
+import Button from "react-bootstrap/Button"
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello World!</h1>
+      <h1>Hogwarts Moments</h1>
+      <Button variant="warning">Hufflepuff</Button>
     </div>
   );
 }
