@@ -2,6 +2,8 @@
 
 # Moments
 
+[Next lesson](https://learn.codeinstitute.net/courses/course-v1:CodeInstitute+RA101+2021_T3/courseware/70a8c55db0504bbdb5bcc3bfcf580080/b398c39fcbef44ca8b23dbac5e7f6067/?child=first)
+
 ## User Stories
 
 ### Navigation & Authentication
