@@ -1,11 +1,12 @@
 import './App.css';
-import Button from "react-bootstrap/Button"
+import NavBar from './components/NavBar';
+
+
 
 function App() {
   return (
     <div className="App">
-      <h1>Hogwarts Moments</h1>
-      <Button variant="warning">Hufflepuff</Button>
+      <NavBar />
     </div>
   );
 }
