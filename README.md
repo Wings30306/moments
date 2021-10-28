@@ -48,3 +48,6 @@
 ## API Endpoints
 ![Endpoints graphic](docs/drf-endpoints-graphic.jpg)
 
+## Axios Interceptors
+![Interceptors slide](docs/axiosInterceptors.png)
+![Interceptors flowchart](docs/interceptorFlowchart.png)
