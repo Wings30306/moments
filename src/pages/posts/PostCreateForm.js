@@ -111,6 +111,7 @@ function PostCreateForm() {
 
               <Form.File
                 id="image-upload"
+                className={styles.ImageUpload}
                 accept="image/*"
                 onChange={handleChangeImage}
               />
