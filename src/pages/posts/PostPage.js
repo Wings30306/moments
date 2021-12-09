@@ -12,6 +12,8 @@ import Post from "./Post";
 import CommentCreateForm from "../comments/CommentCreateForm";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
+import Comment from "../comments/Comment"
+
 function PostPage() {
   const { id } = useParams();
   const [post, setPost] = useState({ results: [] });
@@ -56,9 +58,7 @@ function PostPage() {
           ) : null}
           {comments.results.length ? (
             comments.results.map((comment) => (
-              <p key={comment.id}>
-                {comment.owner} : {comment.content}
-              </p>
+              <Comment key={comment.id} {...comment} setPost={setPost} setComments={setComments}/>
             ))
           ) : currentUser ? (
             <span>Be the first to add a comment!</span>
