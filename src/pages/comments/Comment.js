@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Media } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
@@ -7,6 +7,7 @@ import { MoreDropdown } from "../../components/MoreDropdown";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import styles from "../../styles/Comment.module.css";
 import { axiosRes } from "../../api/axiosDefaults";
+import CommentEditForm from "./CommentEditForm";
 
 const Comment = ({
   id,
@@ -16,11 +17,12 @@ const Comment = ({
   profile_id,
   profile_image,
   setPost,
-  setComments
+  setComments,
 }) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
   const history = useHistory();
+  const [showEditForm, setShowEditForm] = useState(false);
 
   const handleEdit = () => {
     //history.push(`/comments/${id}/edit`)
@@ -30,38 +32,54 @@ const Comment = ({
   const handleDelete = async () => {
     try {
       await axiosRes.delete(`/comments/${id}`);
-      setPost(prevPost => ({
-          results: [{
-              ...prevPost.results[0],
-              comments_count: prevPost.results[0].comments_count - 1
-          }]
-      }))
-      setComments(prevComments => ({
-          ...prevComments,
-          results: prevComments.results.filter(comment => comment.id !== id)
-      }))
+      setPost((prevPost) => ({
+        results: [
+          {
+            ...prevPost.results[0],
+            comments_count: prevPost.results[0].comments_count - 1,
+          },
+        ],
+      }));
+      setComments((prevComments) => ({
+        ...prevComments,
+        results: prevComments.results.filter((comment) => comment.id !== id),
+      }));
     } catch (error) {
       console.log(error);
     }
-    console.log("delete comment with id ", id)
+    console.log("delete comment with id ", id);
   };
   return (
-    <div>
+    <>
       <hr />
       <Media>
         <Link to={`/profiles/${profile_id}`}>
           <Avatar src={profile_image} />
         </Link>
-        <Media.Body>
+        <Media.Body className="align-self-center ml-2">
           <span className={styles.Owner}>{owner}</span>
           <span className={styles.Date}>{updated_at}</span>
-          <p>{content}</p>
+          {showEditForm ? (
+            <CommentEditForm
+              id={id}
+              profile_id={profile_id}
+              content={content}
+              profileImage={profile_image}
+              setComments={setComments}
+              setShowEditForm={setShowEditForm}
+            />
+          ) : (
+            <p>{content}</p>
+          )}
         </Media.Body>
-        {is_owner && (
-          <MoreDropdown handleEdit={handleEdit} handleDelete={handleDelete} />
+        {is_owner && !showEditForm && (
+          <MoreDropdown
+            handleEdit={() => setShowEditForm(true)}
+            handleDelete={handleDelete}
+          />
         )}
       </Media>
-    </div>
+    </>
   );
 };
 
