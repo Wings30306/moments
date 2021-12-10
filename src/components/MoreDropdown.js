@@ -19,7 +19,7 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
         <Dropdown className="ml-auto" drop="left">
             <Dropdown.Toggle as={ThreeDots} id="dropdown-custom-components" />
 
-            <Dropdown.Menu className="text-center">
+            <Dropdown.Menu className="text-center" popperConfig={{ strategy: "fixed" }}>
                 <Dropdown.Item
                     className={styles.DropdownItem}
                     onClick={handleEdit}
