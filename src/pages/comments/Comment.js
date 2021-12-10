@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Media } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
 import Avatar from "../../components/Avatar";
 import { MoreDropdown } from "../../components/MoreDropdown";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -21,13 +20,7 @@ const Comment = ({
 }) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
-  const history = useHistory();
   const [showEditForm, setShowEditForm] = useState(false);
-
-  const handleEdit = () => {
-    //history.push(`/comments/${id}/edit`)
-    console.log("show edit form");
-  };
 
   const handleDelete = async () => {
     try {
