@@ -2,7 +2,7 @@
 
 # Moments
 
-[Next lesson](https://learn.codeinstitute.net/courses/course-v1:CodeInstitute+RA101+2021_T3/courseware/70a8c55db0504bbdb5bcc3bfcf580080/dae7204e9cb747f4b46c2e805d9d0acc/?child=first at 3:54)
+[Next lesson](https://learn.codeinstitute.net/courses/course-v1:CodeInstitute+RA101+2021_T3/courseware/70a8c55db0504bbdb5bcc3bfcf580080/f2a43e76b6694b0c85d8bf5be2d9700f/?child=first)
 
 ## User Stories
 
@@ -11,7 +11,7 @@
 1. Routing: As a user I can navigate through pages quickly so that I can view content seamlessly without page refresh
 1. Authentication - Sign up: As a user I can create a new account so that I can access all the features for signed up users
 1. Authentication - Sign in: As a user I can sign in to the app so that I can access functionality for logged in users
-1. Authentication - Logged in Status: As a user I can tell if I am logged in 1.or not so that I can log in if I need to
+1. Authentication - Logged in Status: As a user I can tell if I am logged in or not so that I can log in if I need to
 1. Authentication - Refreshing access tokens: As a user I can maintain my logged-in status until I choose to log out so that my user experience is not compromised
 1. Navigation: Conditional rendering - As a logged out user I can see sign in and sign up options so that I can sign in/sign up
 1. Avatar: As a user I can view user's avatars so that I can easily identify users of the application
