@@ -14,37 +14,47 @@ import PopularProfiles from "./PopularProfiles";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
-import { useProfileData, useSetProfileData } from "../../contexts/ProfileDataContext";
+import {
+  useProfileData,
+  useSetProfileData,
+} from "../../contexts/ProfileDataContext";
 import { Button, Image } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroll-component";
+import NoResults from "../../assets/no-results.png";
+import Post from "../posts/Post";
+import { fetchMoreData } from "../../utils/utils";
 
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const currentUser = useCurrentUser();
   const { id } = useParams();
   const setProfileData = useSetProfileData();
-  const {pageProfile} = useProfileData();
+  const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
-  const is_owner = currentUser?.username === profile?.owner
+  const is_owner = currentUser?.username === profile?.owner;
+  const [profilePosts, setProfilePosts] = useState({ results: [] });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [{ data: pageProfile }] = await Promise.all([
-          axiosReq.get(`/profiles/${id}/`),
-          // user's posts to be added here in next lesson
-        ]);
-        setProfileData(prevState => ({
-            ...prevState,
-            pageProfile: {results: [pageProfile]}
-        }))
+        const [{ data: pageProfile }, { data: profilePosts }] =
+          await Promise.all([
+            axiosReq.get(`/profiles/${id}/`),
+            axiosReq.get(`/posts/?owner__profile=${id}`),
+          ]);
+        setProfileData((prevState) => ({
+          ...prevState,
+          pageProfile: { results: [pageProfile] },
+        }));
+        setProfilePosts(profilePosts);
+
         setHasLoaded(true);
       } catch (error) {
-          console.log(error)
+        console.log(error);
       }
     };
 
     fetchData();
-    
   }, [id, setProfileData]);
 
   const mainProfile = (
@@ -59,31 +69,37 @@ function ProfilePage() {
         </Col>
         <Col lg={6}>
           <h3 className="m-2">{profile?.owner}</h3>
-          <Row className="justify-content-center no-gutters" >
-              <Col xs={3} className="my-2">
-                  <div>{profile?.posts_count}</div>
-                  <div>posts</div>
-              </Col>
-              <Col xs={3} className="my-2">
-                  <div>{profile?.followers_count}</div>
-                  <div>followers</div>
-              </Col>
-              <Col xs={3} classnName="my-2">
-                  <div>{profile?.following_count}</div>
-                  <div>following</div>
-              </Col>
+          <Row className="justify-content-center no-gutters">
+            <Col xs={3} className="my-2">
+              <div>{profile?.posts_count}</div>
+              <div>posts</div>
+            </Col>
+            <Col xs={3} className="my-2">
+              <div>{profile?.followers_count}</div>
+              <div>followers</div>
+            </Col>
+            <Col xs={3} classnName="my-2">
+              <div>{profile?.following_count}</div>
+              <div>following</div>
+            </Col>
           </Row>
         </Col>
         <Col lg={3} className="text-lg-right">
-          { !is_owner && currentUser && (
-            profile?.following_id ? (
-            <Button className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}>Unfollow</Button>
-            ):(
-              <Button className={`${btnStyles.Button} ${btnStyles.Black}`}>Follow</Button>)
-
-          )}
+          {!is_owner &&
+            currentUser &&
+            (profile?.following_id ? (
+              <Button
+                className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
+              >
+                Unfollow
+              </Button>
+            ) : (
+              <Button className={`${btnStyles.Button} ${btnStyles.Black}`}>
+                Follow
+              </Button>
+            ))}
         </Col>
-        { profile?.content && <Col className="p-3">{profile?.content}</Col>}
+        {profile?.content && <Col className="p-3">{profile?.content}</Col>}
       </Row>
     </>
   );
@@ -91,8 +107,26 @@ function ProfilePage() {
   const mainProfilePosts = (
     <>
       <hr />
-      <p className="text-center">Profile owner's posts</p>
+      <p className="text-center">{profile?.owner}'s posts</p>
       <hr />
+      {profilePosts.results.length ? (
+        <InfiniteScroll
+          children={profilePosts.results.map((post) => (
+            <Post key={post.id} {...post} setPosts={setProfilePosts} />
+          ))}
+          dataLength={profilePosts.results.length}
+          loader={<Asset spinner />}
+          hasMore={!!profilePosts.next}
+          next={() => {
+            fetchMoreData(profilePosts, setProfilePosts);
+          }}
+        />
+      ) : (
+        <Asset
+          src={NoResults}
+          message={`No results found, ${profile?.owner} has not posted yet`}
+        />
+      )}
     </>
   );
 
