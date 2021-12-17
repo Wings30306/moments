@@ -14,7 +14,7 @@ const Profile = ({ profile, mobile, imageSize = 55 }) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
 
-  const { handleFollow} = useSetProfileData();
+  const { handleFollow, handleUnfollow } = useSetProfileData();
 
   return (
     <div
@@ -35,7 +35,7 @@ const Profile = ({ profile, mobile, imageSize = 55 }) => {
           (following_id ? (
             <button 
               className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-              onClick={() => {}}
+              onClick={() => handleUnfollow(profile)}
             >
               Unfollow
             </button>
