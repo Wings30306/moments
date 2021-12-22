@@ -85,8 +85,8 @@ function ProfilePage() {
           </Row>
         </Col>
         <Col lg={3} className="text-lg-right">
-          {!is_owner &&
-            currentUser &&
+          { currentUser &&
+            !is_owner &&
             (profile?.following_id ? (
               <Button
                 className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
