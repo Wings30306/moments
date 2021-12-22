@@ -62,7 +62,7 @@ function ProfilePage() {
       <Row noGutters className="px-3 text-center">
         <Col lg={3} className="text-lg-left">
           <Image
-            class={styles.ProfileImage}
+            className={styles.ProfileImage}
             roundedCircle
             src={profile?.image}
           />
@@ -103,7 +103,7 @@ function ProfilePage() {
               </Button>
             ))}
         </Col>
-        {profile?.content && <Col className="p-3">{profile?.content}</Col>}
+        {profile?.content && <Col className="p-3">{profile.content}</Col>}
       </Row>
     </>
   );

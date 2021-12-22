@@ -7,7 +7,7 @@ export const fetchMoreData = async (resource, setResource) => {
       ...prevResource,
       next: data.next,
       results: data.results.reduce((acc, cur) => {
-        return acc.some((accResult) => accResult === cur.id)
+        return acc.some((accResult) => accResult.id === cur.id)
           ? acc
           : [...acc, cur];
       }, prevResource.results),
@@ -27,23 +27,23 @@ export const followHelper = (profile, clickedProfile, following_id) => {
     : profile.is_owner
     ? // this is the logged in user
       // update its following count
-      { ...profile, following_count: profile.following_count + 1}
+      { ...profile, following_count: profile.following_count + 1 }
     : // not clicked profile nor logged-in user
       profile;
 };
 
 export const unfollowHelper = (profile, clickedProfile) => {
-    return profile.id === clickedProfile.id
-      ? // profile I clicked on,
-        // update followers count and set following id
-        {
-          ...profile,
-          followers_count: profile.followers_count - 1
-        }
-      : profile.is_owner
-      ? // this is the logged in user
-        // update its following count
-        { ...profile, following_count: profile.following_count - 1}
-      : // not clicked profile nor logged-in user
-        profile;
-  };
+  return profile.id === clickedProfile.id
+    ? // profile I clicked on,
+      // update followers count and set following id
+      {
+        ...profile,
+        followers_count: profile.followers_count - 1,
+      }
+    : profile.is_owner
+    ? // this is the logged in user
+      // update its following count
+      { ...profile, following_count: profile.following_count - 1 }
+    : // not clicked profile nor logged-in user
+      profile;
+};
