@@ -1,15 +1,15 @@
 import React from "react";
 import styles from "../../styles/Profile.module.css";
 import btnStyles from "../../styles/Button.module.css";
-import Avatar from "../../components/Avatar";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Link } from "react-router-dom";
+import Avatar from "../../components/Avatar";
+import { Button } from "react-bootstrap";
 import { useSetProfileData } from "../../contexts/ProfileDataContext";
 
-
-
-const Profile = ({ profile, mobile, imageSize = 55 }) => {
-  const { id, following_id, owner, image } = profile;
+const Profile = (props) => {
+  const { profile, mobile, imageSize = 55 } = props;
+  const { id, following_id, image, owner } = profile;
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
@@ -22,7 +22,7 @@ const Profile = ({ profile, mobile, imageSize = 55 }) => {
     >
       <div>
         <Link className="align-self-center" to={`/profiles/${id}`}>
-          <Avatar src={image} width={imageSize} />
+          <Avatar src={image} height={imageSize} />
         </Link>
       </div>
       <div className={`mx-2 ${styles.WordBreak}`}>
@@ -33,19 +33,19 @@ const Profile = ({ profile, mobile, imageSize = 55 }) => {
           currentUser &&
           !is_owner &&
           (following_id ? (
-            <button 
+            <Button
               className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
               onClick={() => handleUnfollow(profile)}
             >
-              Unfollow
-            </button>
+              unfollow
+            </Button>
           ) : (
-            <button 
+            <Button
               className={`${btnStyles.Button} ${btnStyles.Black}`}
               onClick={() => handleFollow(profile)}
             >
-              Follow
-            </button>
+              follow
+            </Button>
           ))}
       </div>
     </div>
