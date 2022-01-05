@@ -7,7 +7,6 @@ import styles from "../../styles/CommentCreateEditForm.module.css";
 
 function CommentEditForm(props) {
   const { id, content, setShowEditForm, setComments } = props;
-  console.log("content from props: ", content)
 
   const [formContent, setFormContent] = useState(content);
 
@@ -35,7 +34,7 @@ function CommentEditForm(props) {
       }));
       setShowEditForm(false);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
