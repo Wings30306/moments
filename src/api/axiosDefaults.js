@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://wings-drf-api.herokuapp.com/";
+axios.defaults.baseURL = "https://moments-drf.onrender.com/";
 axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 axios.defaults.withCredentials = true;
 
